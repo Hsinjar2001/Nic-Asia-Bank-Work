@@ -7,6 +7,7 @@ import AdminTable from "../Components/AdminTable";
 const AdminDashboard = () => {
   const [admins, setAdmins] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const saveAdmin = (admin) => {
     if (editIndex !== null) {
@@ -19,23 +20,40 @@ const AdminDashboard = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   const styles = {
+    container: {
+      minHeight: '100vh',
+      backgroundColor: '#e5e7eb',
+      margin: 0,
+      padding: 0
+    },
     layout: {
       display: 'flex',
-      minHeight: 'calc(100vh - 80px)'
+      minHeight: 'calc(100vh - 70px)',
+      position: 'relative'  // ✅ ADD THIS
     },
     mainContent: {
       flex: 1,
       backgroundColor: '#c5c9d0',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      width: '100%',
+      minWidth: 0  // ✅ ADD THIS - prevents content from overflowing
     }
   };
 
   return (
-    <div>
-      <Navbar />
+    <div style={styles.container}>
+      <Navbar onToggleSidebar={toggleSidebar} />
       <div style={styles.layout}>
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
         <main style={styles.mainContent}>
           <AdminForm
             onSave={saveAdmin}
@@ -54,3 +72,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

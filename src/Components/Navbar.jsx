@@ -1,33 +1,46 @@
-import React from 'react';
+import { useState, useEffect } from "react";
+
+
 
 const Navbar = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const styles = {
     header: {
       backgroundColor: '#dc2626',
       color: 'white',
-      padding: '20px 30px',
+      padding: isMobile ? '15px 20px' : '20px 30px',
       display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: isMobile ? 'flex-start' : 'center',
+      gap: isMobile ? '10px' : '0'
     },
     headerLeft: {
       display: 'flex',
       flexDirection: 'column'
     },
     headerTitle: {
-      fontSize: '32px',
+      fontSize: isMobile ? '24px' : '32px',
       fontWeight: 'bold',
       margin: '0'
     },
     headerSubtitle: {
-      fontSize: '14px',
+      fontSize: isMobile ? '12px' : '14px',
       fontStyle: 'italic',
       margin: '5px 0 0 0'
     },
     headerRight: {
-      fontSize: '36px',
+      fontSize: isMobile ? '20px' : '36px',
       fontWeight: '300',
-      letterSpacing: '4px'
+      letterSpacing: isMobile ? '2px' : '4px',
+      alignSelf: isMobile ? 'flex-start' : 'auto'
     }
   };
 

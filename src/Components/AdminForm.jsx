@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+
 
 const AdminForm = ({ onSave, selected, clear }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [formData, setFormData] = useState({
     fullName: selected?.fullName || '',
     email: selected?.email || '',
     department: selected?.department || 'Information Technology',
     accessLevel: selected?.accessLevel || 'Standard User'
   });
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   React.useEffect(() => {
     if (selected) {
@@ -46,46 +55,49 @@ const AdminForm = ({ onSave, selected, clear }) => {
   const styles = {
     contentBox: {
       backgroundColor: '#c5c9d0',
-      padding: '30px',
+      padding: isMobile ? '20px 15px' : '30px',
       borderRadius: '0',
-      marginBottom: '30px'
+      marginBottom: isMobile ? '20px' : '30px'
     },
     pageTitle: {
-      fontSize: '24px',
+      fontSize: isMobile ? '20px' : '24px',
       fontWeight: '600',
       color: '#3d4451',
-      marginBottom: '30px',
+      marginBottom: isMobile ? '20px' : '30px',
       marginTop: '0'
     },
     formGroup: {
-      marginBottom: '25px'
+      marginBottom: isMobile ? '20px' : '25px'
     },
     label: {
       display: 'block',
       color: '#3d4451',
       fontWeight: '600',
       marginBottom: '10px',
-      fontSize: '14px'
+      fontSize: isMobile ? '13px' : '14px'
     },
     input: {
       width: '100%',
-      padding: '14px',
+      padding: isMobile ? '12px' : '14px',
       backgroundColor: '#2d3748',
       color: '#9ca3af',
       border: 'none',
       borderRadius: '4px',
-      fontSize: '14px',
+      fontSize: isMobile ? '13px' : '14px',
       boxSizing: 'border-box',
       outline: 'none'
     },
     select: {
-      width: '100%',
-      padding: '14px',
-      backgroundColor: '#2d3748',
+        width: '100%',
+  paddingTop: isMobile ? '12px' : '14px',      
+  paddingBottom: isMobile ? '12px' : '14px',   
+  paddingLeft: isMobile ? '12px' : '14px',     
+  paddingRight: '45px',                         
+  backgroundColor: '#2d3748',
       color: '#d1d5db',
       border: 'none',
       borderRadius: '4px',
-      fontSize: '14px',
+      fontSize: isMobile ? '13px' : '14px',
       boxSizing: 'border-box',
       outline: 'none',
       cursor: 'pointer',
@@ -93,21 +105,22 @@ const AdminForm = ({ onSave, selected, clear }) => {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right 16px center',
       backgroundSize: '16px',
-      paddingRight: '45px'
+      
     },
     buttonContainer: {
       display: 'flex',
       alignItems: 'center',
-      gap: '15px',
-      marginTop: '30px'
+      gap: isMobile ? '10px' : '15px',
+      marginTop: isMobile ? '20px' : '30px',
+      flexDirection: isMobile ? 'column' : 'row'
     },
     downloadButton: {
-      width: '52px',
+      width: isMobile ? '100%' : '52px',
       height: '52px',
       backgroundColor: '#6b7280',
       color: 'white',
       border: 'none',
-      borderRadius: '50%',
+      borderRadius: isMobile ? '4px' : '50%',
       fontSize: '20px',
       cursor: 'pointer',
       display: 'flex',
@@ -117,14 +130,15 @@ const AdminForm = ({ onSave, selected, clear }) => {
       flexShrink: 0
     },
     submitButton: {
-      flex: '1',
+      flex: isMobile ? 'none' : '1',
+      width: isMobile ? '100%' : 'auto',
       backgroundColor: '#dc2626',
       color: 'white',
       fontWeight: 'bold',
-      padding: '16px 30px',
+      padding: isMobile ? '14px 30px' : '16px 30px',
       border: 'none',
       borderRadius: '4px',
-      fontSize: '16px',
+      fontSize: isMobile ? '15px' : '16px',
       cursor: 'pointer',
       transition: 'background-color 0.2s'
     }

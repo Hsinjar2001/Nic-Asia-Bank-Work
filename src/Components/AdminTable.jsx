@@ -1,36 +1,46 @@
-import React from "react";
-
+import React, { useState, useEffect } from 'react';
 const AdminTable = ({ admins, onEdit, onDelete }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const styles = {
     tableContainer: {
-      backgroundColor: '#d1d5db',
-      padding: '30px',
-      borderRadius: '4px',
+      backgroundColor: '#c5c9d0',
+      padding: isMobile ? '20px 15px' : '30px',
+      borderRadius: '0',
       overflowX: 'auto'
     },
     table: {
       width: '100%',
       borderCollapse: 'collapse',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      minWidth: isMobile ? '600px' : 'auto'
     },
     th: {
       backgroundColor: '#dc2626',
       color: 'white',
-      padding: '12px',
+      padding: isMobile ? '10px 8px' : '12px',
       textAlign: 'left',
-      fontWeight: '600'
+      fontWeight: '600',
+      fontSize: isMobile ? '12px' : '14px'
     },
     td: {
-      padding: '12px',
-      borderBottom: '1px solid #e5e7eb'
+      padding: isMobile ? '10px 8px' : '12px',
+      borderBottom: '1px solid #e5e7eb',
+      fontSize: isMobile ? '12px' : '14px'
     },
     button: {
-      padding: '6px 12px',
-      margin: '0 5px',
+      padding: isMobile ? '5px 10px' : '6px 12px',
+      margin: isMobile ? '2px' : '0 5px',
       border: 'none',
       borderRadius: '4px',
       cursor: 'pointer',
-      fontSize: '14px',
+      fontSize: isMobile ? '12px' : '14px',
       fontWeight: '500'
     },
     editButton: {
@@ -43,9 +53,9 @@ const AdminTable = ({ admins, onEdit, onDelete }) => {
     },
     noData: {
       textAlign: 'center',
-      padding: '40px',
+      padding: isMobile ? '30px' : '40px',
       color: '#6b7280',
-      fontSize: '16px'
+      fontSize: isMobile ? '14px' : '16px'
     }
   };
 
