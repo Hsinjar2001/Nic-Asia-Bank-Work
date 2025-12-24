@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-
-
-const AdminForm = ({ onSave, selected, clear }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+const AdminForm = ({ onSave, selected, clear, onToggleSidebar, isMobile }) => {
   const [formData, setFormData] = useState({
     fullName: selected?.fullName || '',
     email: selected?.email || '',
@@ -12,12 +9,6 @@ const AdminForm = ({ onSave, selected, clear }) => {
   });
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  React.useEffect(() => {
     if (selected) {
       setFormData(selected);
     }
@@ -59,12 +50,35 @@ const AdminForm = ({ onSave, selected, clear }) => {
       borderRadius: '0',
       marginBottom: isMobile ? '20px' : '30px'
     },
+    // ✅ NEW: Header container with arrow button
+    headerContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '15px',
+      marginBottom: isMobile ? '20px' : '30px'
+    },
+    // ✅ NEW: Arrow button style
+    arrowButton: {
+      display: isMobile ? 'flex' : 'none',
+      width: '40px',
+      height: '40px',
+      backgroundColor: '#dc2626',
+      color: 'white',
+      border: 'none',
+      borderRadius: '50%',
+      fontSize: '20px',
+      cursor: 'pointer',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0,
+      boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+      transition: 'background-color 0.2s'
+    },
     pageTitle: {
       fontSize: isMobile ? '20px' : '24px',
       fontWeight: '600',
       color: '#3d4451',
-      marginBottom: isMobile ? '20px' : '30px',
-      marginTop: '0'
+      margin: '0'
     },
     formGroup: {
       marginBottom: isMobile ? '20px' : '25px'
@@ -88,12 +102,12 @@ const AdminForm = ({ onSave, selected, clear }) => {
       outline: 'none'
     },
     select: {
-        width: '100%',
-  paddingTop: isMobile ? '12px' : '14px',      
-  paddingBottom: isMobile ? '12px' : '14px',   
-  paddingLeft: isMobile ? '12px' : '14px',     
-  paddingRight: '45px',                         
-  backgroundColor: '#2d3748',
+      width: '100%',
+      paddingTop: isMobile ? '12px' : '14px',      
+      paddingBottom: isMobile ? '12px' : '14px',   
+      paddingLeft: isMobile ? '12px' : '14px',     
+      paddingRight: '45px',
+      backgroundColor: '#2d3748',
       color: '#d1d5db',
       border: 'none',
       borderRadius: '4px',
@@ -104,8 +118,7 @@ const AdminForm = ({ onSave, selected, clear }) => {
       appearance: 'none',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right 16px center',
-      backgroundSize: '16px',
-      
+      backgroundSize: '16px'
     },
     buttonContainer: {
       display: 'flex',
@@ -146,7 +159,18 @@ const AdminForm = ({ onSave, selected, clear }) => {
 
   return (
     <div style={styles.contentBox}>
-      <h2 style={styles.pageTitle}>Admin Management</h2>
+      {/* ✅ NEW: Header with Arrow Button */}
+      <div style={styles.headerContainer}>
+        <button 
+          style={styles.arrowButton}
+          onClick={onToggleSidebar}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#dc2626'}
+        >
+          ☰
+        </button>
+        <h2 style={styles.pageTitle}>Admin Management</h2>
+      </div>
 
       <div>
         <div style={styles.formGroup}>
@@ -168,6 +192,7 @@ const AdminForm = ({ onSave, selected, clear }) => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            placeholder="admin@nicasiabank.com"
             style={styles.input}
           />
         </div>
@@ -205,19 +230,19 @@ const AdminForm = ({ onSave, selected, clear }) => {
 
         <div style={styles.buttonContainer}>
           <button
-            style={styles.downloadButton}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#4b5563'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#6b7280'}
-          >
-            ↓
-          </button>
-          <button
             onClick={handleSubmit}
             style={styles.submitButton}
             onMouseEnter={(e) => e.target.style.backgroundColor = '#b91c1c'}
             onMouseLeave={(e) => e.target.style.backgroundColor = '#dc2626'}
           >
             Submit Data
+          </button>
+          <button
+            style={styles.downloadButton}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#4b5563'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#6b7280'}
+          >
+            ↓
           </button>
         </div>
       </div>

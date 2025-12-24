@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       backgroundColor: '#c5c9d0',
       minHeight: '100vh',
       flexShrink: 0,
-      position: isMobile ? 'fixed' : 'relative',  // ✅ KEY FIX
+      position: isMobile ? 'fixed' : 'relative',  
       left: isMobile ? (isOpen ? '0' : '-280px') : '0',
       top: 0,
       zIndex: 1000,
